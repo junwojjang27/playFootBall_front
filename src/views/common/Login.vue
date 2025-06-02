@@ -10,7 +10,7 @@
 
   <div class="mb10">
     <input type="text" v-model="userId" placeholder="아이디"/>
-    <input type="password" placeholder="비밀번호">
+    <input type="password" v-model="password" placeholder="비밀번호">
     <button @click="doLogin">로그인</button>
   </div>
 
@@ -23,13 +23,15 @@
 
 <script>
 import PopSignUp from '@/components/PopSignUp.vue'
+import router from "@/router";
 export default {
   name: 'Login',
   components: { SignUpModal: PopSignUp },
   data() {
     return {
       isModalOpen: false,
-      userId: ''
+      userId: '',
+      password: ''
     }
   },
   methods: {
@@ -40,18 +42,26 @@ export default {
       }
 
       try {
-        const response = await this.$axios.get('/login/login', {
-          params: { userId: this.userId }
-        })
+        const response = await this.$axios.post('/login/login', {
+          userId: this.userId,
+          passwd: this.password
+        });
 
-        if (response.data.exists) {
-          alert('아이디 존재!');
-        } else {
-          alert('아이디가 없습니다!');
-        }
+        const token = response.data.token;
+        // ✅ 여기서 localStorage에 저장!
+        localStorage.setItem('token', token);
+
+        // console.log(response.data);
+        router.push('/main')
+
       } catch (error) {
-        alert('서버 오류가 발생했습니다');
-        console.error(error);
+        // ❌ 로그인 실패
+        if(error.code == "ERR_BAD_REQUEST") {
+          alert(error.response.data);
+        } else {
+          alert('서버 오류가 발생했습니다');
+          console.error(error);
+        }
       }
     }
   }
