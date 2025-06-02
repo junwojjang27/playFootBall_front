@@ -5,7 +5,7 @@
   </div>
 
   <div class="mb10">
-    <img alt="Login Img Son" src="@/assets/images/loginImg.jpg" style="width: 1000px;">
+    <img alt="Login Img Son" src="@/assets/images/sonChampion.png" style="width: 800px;">
   </div>
 
   <div class="mb10">
