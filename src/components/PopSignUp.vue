@@ -83,22 +83,23 @@ export default {
   },
   methods: {
     //아이디 중복 체크
-    checkDuplicateId() {
-      this.isUserIdChecked = true;
-      this.userIdMsg2 = false;
+    async checkDuplicateId() {
+      try {
+        const response = await this.$axios.post('/login/checkDuplicateId', this.form);
 
-      let test = true;
-      if(test) {
         Swal.fire({
-          title: '사용가능한 아이디입니다!',
+          title: response.data,
           icon: 'success',
           showConfirmButton: false,
           timer: 1000
         });
-      } else {
+        this.isUserIdChecked = true;
+        this.userIdMsg2 = false;
+
+      } catch (error) {
         Swal.fire({
           icon: 'warning',
-          text: '중복된 아이디입니다.',
+          text: error.response.data,
           confirmButtonColor: '#007bff',
           confirmButtonText: '확인',
         });
@@ -109,22 +110,23 @@ export default {
       this.userIdMsg2 = true;
     },
     //닉네임 중복 체크
-    checkDuplicateNickNm() {
-      this.isNickNmChecked = true;
-      this.nickNmMsg2 = false;
+    async checkDuplicateNickNm() {
+      try {
+        const response = await this.$axios.post('/login/checkDuplicateNickNm', this.form);
 
-      let test = true;
-      if(test) {
         Swal.fire({
-          title: '사용가능한 닉네임입니다!',
+          title: response.data,
           icon: 'success',
           showConfirmButton: false,
           timer: 1000
         });
-      } else {
+        this.isNickNmChecked = true;
+        this.nickNmMsg2 = false;
+
+      } catch (error) {
         Swal.fire({
           icon: 'warning',
-          text: '중복된 닉네임입니다.',
+          text: error.response.data,
           confirmButtonColor: '#007bff',
           confirmButtonText: '확인',
         });

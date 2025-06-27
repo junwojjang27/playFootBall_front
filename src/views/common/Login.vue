@@ -26,7 +26,7 @@
 
       <div class="mb10">
         <input type="text" v-model="userId" placeholder="아이디" />
-        <input type="password" v-model="password" placeholder="비밀번호" />
+        <input type="password" v-model="password" placeholder="비밀번호" @keyup.enter="doLogin"/>
         <button @click="doLogin">로그인</button>
       </div>
 
@@ -162,8 +162,7 @@ export default {
   },
   methods: {
     async doLogin() {
-      if (!this.userId) {
-        // alert('아이디를 입력하세요!');
+      if (!this.userId || !this.password) {
         Swal.fire({
           icon: 'warning',
           title: '입력 오류',
